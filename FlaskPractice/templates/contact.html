@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h1>Contact</h1>
+
+<p>Have questions? Write to us.</p>
+
+<form method="post">
+    <div class="mb-3">
+      <label for="emailaddress" class="form-label">Email address:</label>
+      <input type="email" class="form-control" id="emailaddress", name="emailaddress", maxlength="50">
+    </div>
+    <div class="mb-3">
+      <label for="subject" class="form-label">Subject:</label>
+      <input type="text" class="form-control" id="subject", name="subject", maxlength="100" >
+    </div>
+    <div class="mb-3">
+        <label for="inquiry" class="inquiry">Inquiry:</label>
+        <input type="text" class="form-control" id="inquiry", name="inquiry", maxlength="3000" >
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

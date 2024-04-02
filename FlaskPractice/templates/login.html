@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h1>Login</h1>
+
+<form method="post">
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" class="form-control" id="username", name="username", minlength="2", maxlength="20">
+    </div>
+    <!--put something here to check if the username's already taken-->
+    <!--detect profanity and ban it-->
+    <div class="mb-3">
+        <label for="password" class="form-label">Enter password</label>
+        <input type="password" class="form-control" id="password", name="password", maxlength="20">
+        <!--Put a requirement for special characters-->
+        <!--notify the user that the password isn't good enough-->
+    </div>
+    <button type="submit" class="btn btn-primary">Enter</button><br><br>
+</form>
+
+<a href="signup">New to our site? Sign up now</a>
+
+{% endblock %}

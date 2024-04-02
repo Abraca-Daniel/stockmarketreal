@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h1>Portfolio</h1>
+
+<h2>Name Here</h2>
+<img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg" height="100" width="100"><br>
+<br>
+<h2>Wallet</h2>
+<p>Funds: $5</p>
+
+<h2>Stocks</h2>
+
+<table>
+    <tr>
+        <th>Stock</th>
+        <th>Price</th>
+        <th>Date/time</th> 
+    </tr>
+    {% for p in stocks %}
+    <tr>
+        <td>{{ s.ticker}}</td>
+        <td>{{ s.price}}</td>
+        <td>{{ s.date}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}
+    

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h1>Transaction Page</h1>
+{% for s in stock %}
+    <p>{{ s.id}}</p>
+    <p>{{ s.ticker}}</p>
+    <p>{{ s.price}}</p>
+    <p>{{ s.date}}</p>
+{% endfor %}
+{% endblock %}
+
+

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block body %}
+
+<h1>Buy a Stock</h1>
+<form method="post">
+    <div class="mb-3">
+      <label for="stockSymbol" class="form-label">Stock Symbol (5 character max!):</label>
+      <input type="text" class="form-control" id="stockSymbol", name="stock_symbol", required pattern="[A-Z,a-z]{1,5}">
+    </div>
+    <div class="mb-3">
+      <label for="numberOfShares" class="form-label">Number of Shares:</label>
+      <input type="text" class="form-control" id="numberOfShares", name="number_of_shares", required pattern="{1,100}" >
+    </div>
+    <div class="mb-3">
+        <label for="purchasePrice" class="form-label">Purchase Price ($):</label>
+        <input type="text" class="form-control" id="purchasePrice", name="purchase_price", required pattern="{1,1000000}" >
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<br>
+<h1>Sell a Stock</h1>
+<form method="post">
+    <div class="mb-3">
+      <label for="stockSymbol" class="form-label">Stock Symbol (5 character max!):</label>
+      <input type="text" class="form-control" id="stockSymbol", name="stock_symbol", required pattern="[A-Z,a-z]{1,5}">
+    </div>
+    <div class="mb-3">
+      <label for="numberOfShares" class="form-label">Number of Shares:</label>
+      <input type="text" class="form-control" id="numberOfShares", name="number_of_shares", required pattern="{1,100}" >
+    </div>
+    <div class="mb-3">
+        <label for="purchasePrice" class="form-label">Selling Price ($):</label>
+        <input type="text" class="form-control" id="purchasePrice", name="purchase_price", required pattern="{1,1000000}" >
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}
