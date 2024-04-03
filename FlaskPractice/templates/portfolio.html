@@ -7,6 +7,7 @@
 <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg" height="100" width="100"><br>
 <br>
 <h2>Wallet</h2>
+<!-- Replace Hard Coding with pulling -->
 <p>Funds: $5</p>
 
 <h2>Stocks</h2>
@@ -17,11 +18,12 @@
         <th>Price</th>
         <th>Date/time</th> 
     </tr>
-    {% for p in stocks %}
+    {% for p in portfolio %}
+    <!-- Display each item in portfolio, where the portfolio's userID matches the currently logged in user-->
     <tr>
-        <td>{{ s.ticker}}</td>
-        <td>{{ s.price}}</td>
-        <td>{{ s.date}}</td>
+        <td>{{ p.ticker}}</td>
+        <td>{{ p.price}}</td>
+        <td>{{ p.date}}</td>
     </tr>
     {% endfor %}
 </table>
