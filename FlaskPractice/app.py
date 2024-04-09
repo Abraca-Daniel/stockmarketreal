@@ -1,5 +1,5 @@
 # Version 3/17/2024
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from sqlalchemy import ForeignKey
@@ -193,23 +193,33 @@ class Administrator:
         self.stocks.append(Stock(company, ticker, volume, price))
         print(f"Stock {ticker} added successfully.")
 
- #   def change_market_hours(self, start_time, end_time):
- #       print(f"Market hours changed to {start_time} - {end_time}")
+    def change_market_hours(self, start_time, end_time):
+        print(f"Market hours changed to {start_time} - {end_time}")
 
- #   def change_market_schedule(self, weekdays, holidays):
- #       print(f"Market open on weekdays: {weekdays}")
- #       print(f"Market closed on holidays: {holidays}")
+    def change_market_schedule(self, weekdays, holidays):
+        print(f"Market open on weekdays: {weekdays}")
+        print(f"Market closed on holidays: {holidays}")
 
-@app.route("/")
+@app.route("/", methods = ['GET', 'POST'])
 def hello_world():
    return render_template('index.html')
 
-@app.route("/signup", methods=['GET', 'POST'])
+@app.route("/signup", methods=['Get','POST'])
 def signup():
-    if request.method == 'POST':
-        # Print the form data to the console
-        for key, value in request.form.items():
-            print(f'{key}: {value}')
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form and 'firstName' in request.form and 'lastName' in request.form and 'startingCash' in request.form :
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        firstName = request.form['firstName']
+        lastName = request.form['lastName']
+        startingCash = request.form['startingCash']
+        
+        register = User(firstName, lastName, username, email, password, startingCash)
+        db.session.add(register)
+        db.session.commit()
+       
+        return redirect(url_for(hello_world))
+
     return render_template('signup.html')
 
 @app.route("/login", methods=['GET', 'POST'])

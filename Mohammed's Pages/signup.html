@@ -77,24 +77,42 @@ body {
     <p>Please complete this form to create a stocks account.</p>
     <hr>
 
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" required>
-
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
-
-    <label for="psw-repeat"><b>Repeat Password</b></label>
-    <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-
-    <label>
-      <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
-    </label>
+    <div class="mb-3">
+      <label for="firstName" class="form-label">First Name:</label>
+      <input type="text" class="form-control" id="firstName" name="firstName" required>
+    </div>
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Last Name:</label>
+      <input type="text" class="form-control" id="lastName" name="lastName" required>
+    </div>
+    <div class="mb-3">
+      <label for="username" class="form-label">Create a username (max 20 characters):</label>
+      <input type="text" class="form-control" id="username" name="username" minlength="2" maxlength="20" required>
+      <!-- Check DB to see if username already exists -->
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email:</label>
+      <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Create a password:</label>
+        <input type="password" class="form-control" id="password" name="password" minlength="8" maxlength="20" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and one special character">
+    </div>
+    <div class="mb-3">
+        <label for="confirmPassword" class="form-label">Retype the password:</label>
+        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" minlength="8" maxlength="20" required>
+    </div>
+    <div class="mb-3">
+        <label for="startingCash" class="form-label">Starting Cash Balance:</label>
+        <input type="number" class="form-control" id="startingCash" name="startingCash" required min="0" step="0.01">
+    </div>
+    
 
     <p>By creating a stocks account you agree to <a href="homepage.html" style="color:red">IFT 401 policies</a>.</p>
 
     <div class="clearfix">
       <button type="button" class="cancelbtn">Cancel</button>
-      <button type="submit" class="signupbtn">Sign Up</button>
+      <button type="submit" class="btn form-control btn-default">Sign Up</button>
     </div>
   </div>
 </form> 
@@ -103,7 +121,7 @@ body {
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box}
 
-input[type=text], input[type=password] {
+input[type=text], input[type=password], input[type=email], input[type=number] {
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
