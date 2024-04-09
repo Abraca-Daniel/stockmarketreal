@@ -6,6 +6,16 @@ Aisha:
 Mohammid:
     Finish Webpages?
     Admin Page and Middleware
+        Create Stock
+            Ticker
+            Price
+        Create Company
+            Name
+            Ticker
+            Total_Shares
+        Delete User
+            User  ID
+            Have Pop-up Confirmation
 Daniel K:
     Portfolio Page:
 

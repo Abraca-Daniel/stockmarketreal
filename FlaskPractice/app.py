@@ -50,7 +50,7 @@ class Stock(db.Model):
 class Company(db.Model):
     __tablename__ = 'Company'
     companyId = db.Column(db.Integer, primary_key=True, index=True)
-    ticker = db.Column(db.String(10))
+    ticker = db.Column(db.String(5))
     total_shares = db.Column(db.Float(), nullable=False)
     name = db.Column(db.String(100))
     
