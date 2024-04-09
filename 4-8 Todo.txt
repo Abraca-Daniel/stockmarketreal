@@ -2,7 +2,7 @@ Daniel P:
     Solve AWS Connection with Test
     Begin Putting Website on AWS
 Aisha:
-    Random Stock Generator
+    Random Stock Price Generator
 Mohammid:
     Fix Title
     Finish Webpages?
