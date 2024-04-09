@@ -12,6 +12,7 @@
       <input type="text" class="form-control" id="numberOfShares", name="number_of_shares", required pattern="{1,100}" >
     </div>
     <div class="mb-3">
+      <!--We don't set the purchase price; the purchase price is the amount of shares multiplied by the cost per share-->
         <label for="purchasePrice" class="form-label">Purchase Price ($):</label>
         <input type="text" class="form-control" id="purchasePrice", name="purchase_price", required pattern="{1,1000000}" >
     </div>
@@ -29,6 +30,9 @@
       <input type="text" class="form-control" id="numberOfShares", name="number_of_shares", required pattern="{1,100}" >
     </div>
     <div class="mb-3">
+            <!--We don't set the sell price; You would sell them for the value of the stock at the time, which is multiplied by
+            the total laps-->
+
         <label for="purchasePrice" class="form-label">Selling Price ($):</label>
         <input type="text" class="form-control" id="purchasePrice", name="purchase_price", required pattern="{1,1000000}" >
     </div>

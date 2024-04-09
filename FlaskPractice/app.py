@@ -20,19 +20,23 @@ class User(db.Model):
    username = db.Column(db.String(20))
    email = db.Column(db.String(100))
    password = db.Column(db.String(100))
+   cashBal = db.Column(db.Integer)
+   
 
-   def __init__(self, fName, lName, uName, email, password):
+   def __init__(self, fName, lName, uName, email, password, cash_amount):
        self.first_name = fName
        self.last_name = lName
        self.username = uName
        self.email = email
        self.password = password
+       self.cashBal = cash_amount
+
    
 
 class Stock(db.Model):
    __tablename__ = 'Stock'
    stockId = db.Column(db.Integer, primary_key=True, index=True)
-   ticker = db.Column(db.String(10))
+   ticker = db.Column(db.String(5))
    price = db.Column(db.Float())
 
    def __init__(self, ticker, price):
@@ -61,14 +65,12 @@ class Portfolio(db.Model):
     __tablename__ = 'portfolio'
     portfolioid = db.Column(db.Integer, primary_key=True, index=True)
     userid = db.Column(db.Integer, ForeignKey(User.userId))
-    cashBal = db.Column(db.Integer)
     stockID = db.Column(db.Integer, ForeignKey(Stock.stockId))
     quantity = db.Column(db.Integer)
-    purchasePrice = db.Column(db.Integer)
+    purchasePrice = db.Column(db.Integer) 
 
-    def __init__(self, userID, cash_amount, Stock, quantity, purchasePrice):
+    def __init__(self, userID, Stock, quantity, purchasePrice):
         self.userID = userID
-        self.cashBal = cash_amount
         self.stockID = Stock
         self.quantity = quantity
         self.purchasePrice = purchasePrice
@@ -237,17 +239,12 @@ def trade():
 @app.route("/portfolio")
 def portfolio():
    portfolio = Portfolio.query.all()
-   tickers= ['Apple',
-             'Microsoft',
-             'google',
-             'meta',
-             'tesla']
    return render_template('portfolio.html', portfolio=portfolio)
 
 @app.route("/transaction")
 def transaction():
-   stock = Stock.query.all()
-   return render_template('transaction.html', stock=stock)
+  # stock = Stock.query.all()
+   return render_template('transaction.html')
 
 @app.route("/support")
 def support():
