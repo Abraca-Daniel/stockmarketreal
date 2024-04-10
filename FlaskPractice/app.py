@@ -260,6 +260,10 @@ def transaction():
 def support():
     return render_template('support.html')
 
+@app.route("/searchstock")
+def searchstock():
+    return render_template('searchstock.html')
+
 @app.route("/faq")
 def faq():
    return render_template('faq.html')
