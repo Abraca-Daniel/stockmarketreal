@@ -158,28 +158,6 @@ class Transactions(db.Model):
     def view_transaction_history(self):
         self.portfolio.view_transaction_history()
 
-
-class Accounts:
-    def __init__(self):
-        self.users = {}
-
-    def create_account(self, full_name, username, email, password):
-        if username in self.users:
-            print('Username already exists. Pleases choose a different username.')
-            return False
-        self.users[username] = User(full_name, username, email, password)
-        print('Acount created successfully. Thank you for joining NotARealStock.Exchange')
-        return True
-    
-    def login(self, username, password):
-        if username in self.users and self.users[username].password == password:
-            print('Login successful')
-            return self.user[username]
-        else:
-            print('Invalid username or password.')
-            return None
-
-
 class Administrator:
     def __init__(self):
         self.companies = []
@@ -204,52 +182,44 @@ class Administrator:
 def hello_world():
    return render_template('index.html')
 
+<<<<<<< Updated upstream
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
         # Print the form data to the console
         for key, value in request.form.items():
             print(f'{key}: {value}')
+=======
+@app.route("/signup", methods=['GET','POST'])
+def signup():
+>>>>>>> Stashed changes
     return render_template('signup.html')
 
-@app.route("/login", methods=['GET', 'POST'])
+@app.route("/login-signup", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         # Print the form data to the console
         for key, value in request.form.items():
             print(f'{key}: {value}')
-    return render_template('login.html')
+    return render_template('login-signup.html')
 
-@app.route("/contact", methods=['GET', 'POST'])
-def contact():
-    if request.method == 'POST':
-        # Print the form data to the console
-        for key, value in request.form.items():
-            print(f'{key}: {value}')
-    return render_template('contact.html')
+@app.route("/wallet", methods=['GET', 'POST'])
+def wallet():
+    return render_template('wallet.html')
 
-@app.route("/trade", methods=['GET', 'POST'])
-def trade():
-    if request.method == 'POST':
-        # Print the form data to the console
-        for key, value in request.form.items():
-            print(f'{key}: {value}')
-    return render_template('trade.html')
 
 @app.route("/portfolio")
 def portfolio():
-   portfolio = Portfolio.query.all()
-   return render_template('portfolio.html', portfolio=portfolio)
+   return render_template('portfolio.html')
 
-@app.route("/transaction")
-def transaction():
-  # stock = Stock.query.all()
-   return render_template('transaction.html')
+@app.route("/searchstock")
+def searchStock():
+    return render_template('searchstock.html')
 
-@app.route("/support")
-def support():
-    return render_template('support.html')
-
-@app.route("/faq")
-def faq():
-   return render_template('faq.html')
+#@app.route("/trade", methods=['GET', 'POST'])
+#def trade():
+#    if request.method == 'POST':
+#        # Print the form data to the console
+#        for key, value in request.form.items():
+#            print(f'{key}: {value}')
+#    return render_template('trade.html')
