@@ -182,17 +182,12 @@ class Administrator:
 def hello_world():
    return render_template('index.html')
 
-<<<<<<< Updated upstream
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
         # Print the form data to the console
         for key, value in request.form.items():
             print(f'{key}: {value}')
-=======
-@app.route("/signup", methods=['GET','POST'])
-def signup():
->>>>>>> Stashed changes
     return render_template('signup.html')
 
 @app.route("/login-signup", methods=['GET', 'POST'])
