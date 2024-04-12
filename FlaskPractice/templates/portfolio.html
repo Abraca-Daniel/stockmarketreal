@@ -1,18 +1,21 @@
 <! DOCTYPE html>
-<div style="text-align: left;"><img src="StockHunter.png" width="400"/></div>
+<div style="text-align: left;"><img src="notarealstock.png" width="400"/></div>
 <html>
 <header>
     <meta charset="utf-8" />
     <title>PORTFOLIO - STOCKSITE</title>
 </header>
 <div class="topnav">
-  <a href="/">Home</a>
-  <a href="portfolio">Portfolio</a>
-  <a href="searchstock">Search for Stocks</a>
-  <a href="signup">Sign Up</a>
-  <a href="wallet">Wallet</a>
-  <a href="login-signup">Log In</a>
-</div>
+  <a class="active" href="index.html">Home</a>
+    <a href="admin_homepage.html">Admin</a>
+  <a href="portfolio.html">Portfolio</a>
+    <a href="searchstock.html">Search for Stocks</a>
+   <a href="signup.html">Sign Up</a>
+   <a href="wallet.html">Wallet</a>
+   <a href="login-signup.html">Log In</a>
+   
+  <input type="text" placeholder="Search for stocks..">
+</div> 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 * {box-sizing: border-box;}
@@ -22,34 +25,9 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-<<<<<<< Updated upstream
-<h2>Name Here</h2>
-<img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg" height="100" width="100"><br>
-<br>
-<h2>Wallet</h2>
-<!-- Replace Hard Coding with pulling 
-<p>Funds:(users(userid)</p>
--->
-<h2>Stocks</h2>
-
-<table>
-    <tr>
-        <th>Stock</th>
-        <th>Price</th>
-        <th>Date/time</th> 
-    </tr>
-    {% for p in portfolio %}
-    <!-- Display each item in portfolio, where the portfolio's userID matches the currently logged in user-->
-    <tr>
-        <td>{{ p.ticker}}</td>
-        <td>{{ p.price}}</td>
-        <td>{{ p.date}}</td> 
-    </tr>
-    {% endfor %}
-=======
 .topnav {
   overflow: hidden;
-  background-color: #A52A2A;
+  background-color: #0e6655;
 }
 
 .topnav a {
@@ -68,7 +46,7 @@ body {
 }
 
 .topnav a.active {
-  background-color: #A52A2A;
+  background-color: #0e6655;
   color: black;
 }
 
@@ -105,18 +83,18 @@ table {
 }
 
 td, th {
-  border: 1px solid #dddddd;
+  border: 1px solid #0e6655;
   text-align: left;
   padding: 8px;
 }
 
 tr:nth-child(even) {
-  background-color: #dddddd;
+  background-color: #0e6655;
 }
 </style>
 </head>
 <body>
-<h1>Username</h1>
+<h1>Admin</h1>
 <h2>Stocks owned</h2>
 
 <table>
@@ -150,7 +128,6 @@ tr:nth-child(even) {
   </tr>
   <tr>
   </tr>
->>>>>>> Stashed changes
 </table>
 
 </body>
@@ -206,7 +183,7 @@ function seS() {
 let text = "";
 
 for (let i = 0; i < 5; i++) {
-  text += "The number is " + i + "<br>";
+  
 }
 
 document.getElementById("button1").innerHTML = text;
@@ -214,3 +191,18 @@ document.getElementById("button1").innerHTML = text;
 
 </body>
 </html>
+
+
+
+<html> 
+<head> 
+  <style> 
+    body { 
+      background-color: black; 
+      color: white; 
+	  padding:10% 3% 10% 3%;
+        text-align:center;
+    } 
+	
+  </style> 
+</head> 
