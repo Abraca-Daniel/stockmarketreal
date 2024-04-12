@@ -99,3 +99,22 @@ body {
 	
   </style> 
 </head> 
+
+</body>
+</html> 
+<button onclick="byS()">Buy a stock</button>
+
+<p id="Button2"></p>
+
+<script>
+function byS() {
+  var txt;
+  if (confirm("Are you sure you want to buy this stock?")) {
+    txt = "stock purchased!";
+  } else {
+    txt = "Transaction is cancelled!";
+  }
+  document.getElementById("Button2").innerHTML = txt;
+}
+</script>
+</body>

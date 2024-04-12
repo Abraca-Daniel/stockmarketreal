@@ -211,6 +211,10 @@ def portfolio():
 def searchStock():
     return render_template('searchstock.html')
 
+@app.route("/adminpage")
+def adminPage():
+    return render_template('admin_homepage.html')
+
 #@app.route("/trade", methods=['GET', 'POST'])
 #def trade():
 #    if request.method == 'POST':
