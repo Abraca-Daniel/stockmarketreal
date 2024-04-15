@@ -184,33 +184,6 @@ class Administrator:
  #   def change_market_schedule(self, weekdays, holidays):
  #       print(f"Market open on weekdays: {weekdays}")
  #       print(f"Market closed on holidays: {holidays}")
-def populate_db():
-    
-    # Define some default companies and stocks
-    companies = [
-        Company(name='Apple Inc.', ticker='AAPL', total_shares=10000),
-        Company(name='Microsoft Corporation', ticker='MSFT', total_shares=10000),
-        Company(name='Amazon.com, Inc.', ticker='AMZN', total_shares=10000),
-    ]
-
-    stocks = [
-        Stock(ticker='AAPL', price=150.0),
-        Stock(ticker='MSFT', price=200.0),
-        Stock(ticker='AMZN', price=3000.0),
-    ]
-
-    # Add the companies and stocks to the session
-  #  db.add_all(companies)
-  #  db.add_all(stocks)
-
-    # Commit the session to save the objects to the database
-   # db.commit()
-
-    print("Database populated successfully.")
-
-populate_db()
-
-print("Database populated successfully.")
 
 @app.route("/")
 def hello_world():
@@ -256,3 +229,15 @@ def adminPage():
 #        for key, value in request.form.items():
 #            print(f'{key}: {value}')
 #    return render_template('trade.html')
+
+def populate_db(db):
+    db.session.add(Company(name='Apple Inc.', ticker='AAPL', total_shares=10000))
+    db.session.add(Company(name='Microsoft Corporation', ticker='MSFT', total_shares=10000))
+    db.session.add(Company(name='Amazon.com, Inc.', ticker='AMZN', total_shares=10000))
+    db.session.add(Stock(ticker='AAPL', price=150.0))
+    db.session.add(Stock(ticker='MSFT', price=200.0))
+    db.session.add(Stock(ticker='AMZN', price=3000.0))
+    db.session.commit()
+    print("Database populated successfully.")
+
+populate_db(db)
