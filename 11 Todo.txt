@@ -12,7 +12,7 @@ Mohhamid A.
 
 
 
-Portfolio (Mohammid)
+Portfolio (Aisha)
     Load Portfolio --> via user.ID
     Pull stocks, and buy price.
     Sell a Stock
@@ -22,7 +22,7 @@ Search for stocks (Daniel K, Will work with Aisha for random functionw when fini
     Buy a stock 
         Just enter the Ticker, Ticker ties to stock and will put input.
         subtract from user.wallet.
-Sign up (Daniel P.)
+Sign up (Mohammid)
     Edit Website:
         Full name
         username

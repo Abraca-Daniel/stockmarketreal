@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from sqlalchemy import ForeignKey
 import os
+
 app = Flask(__name__)
 app.debug = True
 
@@ -11,6 +12,12 @@ dasedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:94521Thwomp@localhost:3306/stocks'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+
+
+
+
+
 
 class User(db.Model):
    __tablename__ = 'User'
@@ -177,6 +184,33 @@ class Administrator:
  #   def change_market_schedule(self, weekdays, holidays):
  #       print(f"Market open on weekdays: {weekdays}")
  #       print(f"Market closed on holidays: {holidays}")
+def populate_db():
+    
+    # Define some default companies and stocks
+    companies = [
+        Company(name='Apple Inc.', ticker='AAPL', total_shares=10000),
+        Company(name='Microsoft Corporation', ticker='MSFT', total_shares=10000),
+        Company(name='Amazon.com, Inc.', ticker='AMZN', total_shares=10000),
+    ]
+
+    stocks = [
+        Stock(ticker='AAPL', price=150.0),
+        Stock(ticker='MSFT', price=200.0),
+        Stock(ticker='AMZN', price=3000.0),
+    ]
+
+    # Add the companies and stocks to the session
+  #  db.add_all(companies)
+  #  db.add_all(stocks)
+
+    # Commit the session to save the objects to the database
+   # db.commit()
+
+    print("Database populated successfully.")
+
+populate_db()
+
+print("Database populated successfully.")
 
 @app.route("/")
 def hello_world():

@@ -1,5 +1,5 @@
 <! DOCTYPE html>
-<div style="text-align: left;"><img src="{{ url_for('static', filename='notarealstock.png') }}" width="400"/></div>
+<div style="text-align: left;"><img src="notarealstock.png" width="400"/></div>
 <div class="topnav">
   <a class="active" href="index.html">Home</a>
   <a href="portfolio.html">Portfolio</a>
@@ -96,6 +96,18 @@ body {
   <input type="text" id="lname"><br><br>
   <input type="submit" value="Submit">
 </form> 
+
+<h2>All listed Stocks</h2>
+
+<div id="stocks">
+  {% for stock in stocks %}
+    <p>
+      {{ stock.stockID }}
+      {{ stock.ticker  }}
+      {{ stock.price }}
+    </p>
+    {% endfor %}
+</div>
 </body>
 </html>
 
