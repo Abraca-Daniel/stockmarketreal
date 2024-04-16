@@ -198,7 +198,7 @@ def wallet():
     balance = User.query.cashBal()
     return render_template('wallet.html', balance=balance)
 
-@app.route("/addAmount", methods=["POST"])
+@app.route("/addCash", methods=["POST"])
 def add_cash():
     addamount = request.form.get("addAmount")
     db.session.update(addamount)
