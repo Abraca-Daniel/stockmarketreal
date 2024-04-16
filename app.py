@@ -201,14 +201,14 @@ def wallet():
 @app.route("/addCash", methods=["POST"])
 def add_cash():
     addamount = request.form.get("addAmount")
-    db.session.update(addamount)
+    balance = balance + addamount
     db.session.commit()
     return redirect(url_for("wallet"))
 
 @app.route("/withdraw", methods=["POST"])
 def withdraw():
     withdrawAmount = request.form.get("withdrawAmount")
-    db.session.update(withdrawAmount)
+    balance = balance - withdrawAmount
     db.session.commit()
     return redirect(url_for("wallet"))
 
