@@ -81,38 +81,34 @@ body {
 
 </body>
 </html>
-<button onclick="wiFun()">Withdrow Cash</button>
-
-<p id="wf"></p>
-
-<script>
-function wiFun() {
-  var txt;
-  if (confirm("Are you sure you want to withdraw money?")) {
-    txt = "money withdrawn!";
-  } else {
-    txt = "no money was withdrawn!";
-  }
-  document.getElementById("wf").innerHTML = txt;
-}
-</script>
+    <!-- Form to Add Cash to User -->
+    <form action="/addcash" method="post" style="width: 45%;">
+      <div>
+        <h3>Add Cash</h3>
+        <label for="addAmount">Amount to Add:</label><br>
+        <input type="number" id="addAmount" name="addAmount"><br><br>
+        <button type="button">Add Cash</button>
+      </div>
+    </form>
 </body>
 </html>
-<button onclick="adCa()" style= "border:1px solid #ccc">Add Cash</button>
 
-<p id="ad"></p>
+</body>
+</html>
+    <!-- Form to Withdraw Cash -->
+    <form action="/withdraw" method="post" style="width: 45%;">
+      <div>
+        <h3>Withdraw Cash</h3>
+        <label for="withdrawAmount">Amount to Withdraw:</label><br>
+        <input type="number" id="withdrawAmount" name="withdrawAmount"><br><br>
+        <button type="button">Withdraw Cash</button>
+      </div>
+    </form>
+</body>
+</html>
 
-<script>
-function adCa() {
-  var txt;
-  if (confirm("Are you sure you want to add money?")) {
-    txt = "money added!";
-  } else {
-    txt = "no money was added!";
-  }
-  document.getElementById("ad").innerHTML = txt;
-}
-</script>
+
+
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box}

@@ -192,9 +192,25 @@ def login():
             print(f'{key}: {value}')
     return render_template('login-signup.html')
 
+
 @app.route("/wallet", methods=['GET', 'POST'])
 def wallet():
-    return render_template('wallet.html')
+    balance = User.query.cashBal()
+    return render_template('wallet.html', balance=balance)
+
+@app.route("/addAmount", methods=["POST"])
+def add_cash():
+    addamount = request.form.get("addAmount")
+    db.session.update(addamount)
+    db.session.commit()
+    return redirect(url_for("wallet"))
+
+@app.route("/withdraw", methods=["POST"])
+def withdraw():
+    withdrawAmount = request.form.get("withdrawAmount")
+    db.session.update(withdrawAmount)
+    db.session.commit()
+    return redirect(url_for("wallet"))
 
 
 @app.route("/portfolio")
