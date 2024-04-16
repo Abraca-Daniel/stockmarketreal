@@ -1,19 +1,19 @@
 <! DOCTYPE html>
 <div style="text-align: left;"><img src="{{ url_for('static', filename='notarealstock.png') }}" width="400"/></div>
 <div class="topnav">
-
-  <div class="topnav">
-    <a class="active" href="/">Home</a>
-    <a href="portfolio">Portfolio</a>
-      <a href="searchstock">Search for Stocks</a>
-     <a href="signup">Sign Up</a>
-     <a href="wallet">Wallet</a>
-     <a href="login-signup">Log In</a>
+  <a class="active" href="/">Home</a>
+  <a href="portfolio">Portfolio</a>
+  <a href="signup">Sign Up</a>
+  <a href="wallet">Wallet</a>
+  <a href="login-signup">Log In</a>
 </div> 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 * {box-sizing: border-box;}
-
+.form-container {
+      display: flex;
+      justify-content: space-between;
+    }
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -75,38 +75,43 @@ body {
 
 </body>
 </html>
+<!-- Currently loads User1's Cash Balance
+      Maybe, ask for a username first, and check it,
+      better yet, somehow after log in lead here and keep going.
+    -->
 <h1>Availabe Funds</h1>
-<p>$10,900,489.48</p>
+<p>{{ balance }}</p>
 
-
-</body>
-</html>
+<body>
+  <div class="form-container">
     <!-- Form to Add Cash to User -->
+    
     <form action="/addcash" method="post" style="width: 45%;">
       <div>
         <h3>Add Cash</h3>
         <label for="addAmount">Amount to Add:</label><br>
-        <input type="number" id="addAmount" name="addAmount"><br><br>
-        <button type="button">Add Cash</button>
+        <input type="number" id="addAmount" name="addAmount" default=0><br><br>
+        <input type="submit" value="Add Cash">
+        <!-- Needs to have Catch for Zero Correction-->
+        <!-- Needs to have Catch for Zero Correction-->
+        <!-- Needs to have Catch for Zero Correction-->
       </div>
     </form>
-</body>
-</html>
 
-</body>
-</html>
     <!-- Form to Withdraw Cash -->
     <form action="/withdraw" method="post" style="width: 45%;">
       <div>
         <h3>Withdraw Cash</h3>
         <label for="withdrawAmount">Amount to Withdraw:</label><br>
         <input type="number" id="withdrawAmount" name="withdrawAmount"><br><br>
-        <button type="button">Withdraw Cash</button>
+        <input type="submit" value="Withdraw Cash">
+        <!-- Needs to have Catch for Zero Correction-->
+        <!-- Needs to have Catch for Zero Correction-->
+        <!-- Needs to have Catch for Zero Correction-->
       </div>
     </form>
+  </div>
 </body>
-</html>
-
 
 
 <style>
@@ -127,6 +132,17 @@ input[type=text]:focus, input[type=password]:focus {
   outline: none;
 }
 
+input[type=submit] {
+  width: 100%;
+  background-color: #0e6655;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: large
+}
 hr {
   border: 1px solid #0e6655;
   margin-bottom: 25px;
@@ -197,3 +213,4 @@ button:hover {
 	
   </style> 
 </head> 
+

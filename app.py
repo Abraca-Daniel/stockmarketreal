@@ -195,21 +195,30 @@ def login():
 
 @app.route("/wallet", methods=['GET', 'POST'])
 def wallet():
-    balance = User.query.cashBal()
+    user = User.query.filter_by(userId=1).first()
+    if user is not None:
+        balance = user.cashBal
+    else:
+        balance = "User not found"
     return render_template('wallet.html', balance=balance)
 
-@app.route("/addCash", methods=["POST"])
+@app.route("/addcash", methods=["POST"])
 def add_cash():
     addamount = request.form.get("addAmount")
-    db.session.update(addamount)
-    db.session.commit()
+    user = User.query.filter_by(userId=1).first()
+    if user is not None:
+        user.cashBal += int(addamount)
+        db.session.commit()
+        
     return redirect(url_for("wallet"))
 
 @app.route("/withdraw", methods=["POST"])
 def withdraw():
     withdrawAmount = request.form.get("withdrawAmount")
-    db.session.update(withdrawAmount)
-    db.session.commit()
+    user = User.query.filter_by(userId=1).first()
+    if user is not None:
+        user.cashBal -= int(withdrawAmount)
+        db.session.commit()
     return redirect(url_for("wallet"))
 
 
@@ -264,6 +273,7 @@ def del_Stock(stockId):
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
+        db.session.add(User('Daniel', 'Polonsky', 'Abraca-Daniel','polonsky.da@live.com','SoupwithSririacha','59382'))
         db.session.add(Stock('APPL', 56))
         db.session.add(Stock('NVDA', 200))
         db.session.add(Stock('MSFT', 2000))
