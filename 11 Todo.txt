@@ -3,10 +3,14 @@ Daniel P.
 Daniel K.
     Portfolio Page
         Reference app.py and Admin Page for Coding Examples
+        Sell Stocks
+            Requires Confirmation Step (do Last)
 Aisha R.
     Search for Stocks Page
         use Admin page for Post All
         Search Function query for specific ticker post that as the only option.
+        Buy Stocks
+            Requries Confirmation Step (do last)
 Mohhamid A.
     https://canvas.asu.edu/courses/175750/assignments/4869856
     Create Google Deck
