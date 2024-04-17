@@ -1,42 +1,14 @@
 Daniel P.
-Mohammid
+    Transaction Page
 Daniel K.
+    Portfolio Page
+        Reference app.py and Admin Page for Coding Examples
 Aisha R.
-    Random Stock Price Editor
-        When it loads the whole stock, take the price and
-        fuck with it.
-        This will be used on the search for stocks page.
+    Search for Stocks Page
+        use Admin page for Post All
+        Search Function query for specific ticker post that as the only option.
 Mohhamid A.
-
-
-
-
-
-Portfolio (Aisha)
-    Load Portfolio --> via user.ID
-    Pull stocks, and buy price.
-    Sell a Stock
-Search for stocks (Daniel K, Will work with Aisha for random functionw when finished)
-    Load every stock in stocks
-        Use random price generator to fluctuate value.
-    Buy a stock 
-        Just enter the Ticker, Ticker ties to stock and will put input.
-        subtract from user.wallet.
-Sign up (Mohammid)
-    Edit Website:
-        Full name
-        username
-        email
-        password
-Wallet (Daniel K.)
-    Spell check
-    Add money affects user.id cash balasnce
-    remove does oppsite
-
-     History of Transactions below Wallet
-Login (Mohammid)
-    Regardless of Username entered, accept as user redirect to portfolio
-
-    When admin is entered, login will redirect to admin page.
-Admin Page (Daniel P.)
-    All DB functions
+    https://canvas.asu.edu/courses/175750/assignments/4869856
+    Create Google Deck
+    Invite Everyone
+    Build Deck Skeleton

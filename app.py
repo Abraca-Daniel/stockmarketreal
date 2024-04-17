@@ -20,14 +20,16 @@ class User(db.Model):
    email = db.Column(db.String(100))
    password = db.Column(db.String(100))
    cashBal = db.Column(db.Integer)
+   username = db.Column(db.String(100))
    
 
-   def __init__(self, fName, lName, email, password, cash_amount):
+   def __init__(self, fName, lName, email, password, cash_amount, username):
        self.first_name = fName
        self.last_name = lName
        self.email = email
        self.password = password
        self.cashBal = cash_amount
+       self.username = username
 
 class Stock(db.Model):
    __tablename__ = 'Stock'
@@ -187,6 +189,7 @@ def signupUser():
     name = request.form.get('name')
     fname, lname = name.split(' ', 1)
     email = request.form.get('email')
+    username = request.form.get('email')
     password = request.form.get('psw')
     cashBal = request.form.get('cashBal')
     new_user = User(fname, lname, email, password, cashBal)
@@ -249,6 +252,8 @@ def withdraw():
 
 @app.route("/portfolio")
 def portfolio():
+   user_id = session.get('user_id')
+   portfolio = Portfolio.query.filter_by(userId=user_id)
    return render_template('portfolio.html')
 
 @app.route("/searchstock")
@@ -298,7 +303,7 @@ def del_Stock(stockId):
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-        db.session.add(User('Daniel', 'Polonsky','polonsky.da@live.com','SoupwithSririacha','59382'))
+        db.session.add(User('Daniel', 'Polonsky','polonsky.da@live.com','SoupwithSririacha','59382', 'AbracaDaniel'))
         db.session.add(Stock('APPL', 56))
         db.session.add(Stock('NVDA', 200))
         db.session.add(Stock('MSFT', 2000))
