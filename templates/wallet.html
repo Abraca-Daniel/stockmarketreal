@@ -3,6 +3,7 @@
 <div class="topnav">
   <a class="active" href="/">Home</a>
   <a href="portfolio">Portfolio</a>
+  <a href="searchstock">Search for Stocks</a>
   <a href="signup">Sign Up</a>
   <a href="wallet">Wallet</a>
   <a href="login-signup">Log In</a>
@@ -90,11 +91,8 @@ body {
       <div>
         <h3>Add Cash</h3>
         <label for="addAmount">Amount to Add:</label><br>
-        <input type="number" id="addAmount" name="addAmount" default=0><br><br>
+        <input type="number" id="addAmount" name="addAmount" default=0 required><br><br>
         <input type="submit" value="Add Cash">
-        <!-- Needs to have Catch for Zero Correction-->
-        <!-- Needs to have Catch for Zero Correction-->
-        <!-- Needs to have Catch for Zero Correction-->
       </div>
     </form>
 
@@ -103,16 +101,12 @@ body {
       <div>
         <h3>Withdraw Cash</h3>
         <label for="withdrawAmount">Amount to Withdraw:</label><br>
-        <input type="number" id="withdrawAmount" name="withdrawAmount"><br><br>
+        <input type="number" id="withdrawAmount" name="withdrawAmount" required><br><br>
         <input type="submit" value="Withdraw Cash">
-        <!-- Needs to have Catch for Zero Correction-->
-        <!-- Needs to have Catch for Zero Correction-->
-        <!-- Needs to have Catch for Zero Correction-->
       </div>
     </form>
   </div>
 </body>
-
 
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}

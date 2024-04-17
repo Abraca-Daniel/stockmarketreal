@@ -1,5 +1,5 @@
 # Version 3/17/2024
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from sqlalchemy import ForeignKey
@@ -7,7 +7,7 @@ from sqlalchemy import ForeignKey
 app = Flask(__name__)
 app.app_context()
 app.debug = True
-
+app.secret_key = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -17,16 +17,14 @@ class User(db.Model):
    userId = db.Column(db.Integer, primary_key=True, index=True)
    first_name = db.Column(db.String(100))
    last_name = db.Column(db.String(100))
-   username = db.Column(db.String(20))
    email = db.Column(db.String(100))
    password = db.Column(db.String(100))
    cashBal = db.Column(db.Integer)
    
 
-   def __init__(self, fName, lName, uName, email, password, cash_amount):
+   def __init__(self, fName, lName, email, password, cash_amount):
        self.first_name = fName
        self.last_name = lName
-       self.username = uName
        self.email = email
        self.password = password
        self.cashBal = cash_amount
@@ -184,18 +182,43 @@ def signup():
             print(f'{key}: {value}')
     return render_template('signup.html')
 
-@app.route("/login-signup", methods=['GET', 'POST'])
+@app.route("/signupUser", methods=['POST'])
+def signupUser():
+    name = request.form.get('name')
+    fname, lname = name.split(' ', 1)
+    email = request.form.get('email')
+    password = request.form.get('psw')
+    cashBal = request.form.get('cashBal')
+    new_user = User(fname, lname, email, password, cashBal)
+    db.session.add(new_user)
+    db.session.commit()
+    return redirect(url_for('login'))
+
+@app.route("/login-signup", methods=['GET','POST'])
 def login():
-    if request.method == 'POST':
-        # Print the form data to the console
-        for key, value in request.form.items():
-            print(f'{key}: {value}')
     return render_template('login-signup.html')
 
+@app.route("/loginattempt", methods=['POST'])
+def loginattempt():
+    email = request.form.get("email")
+    password = request.form.get("psw")
+    if email == 'admin@stocks.com':
+        return redirect(url_for('adminPage'))
+    user = User.query.filter_by(email=email, password=password).first()
+    print
+    if user:
+        session['user_id'] = user.userId
+        return redirect(url_for('wallet'))
+    else:
+        return redirect(url_for('login'))
 
 @app.route("/wallet", methods=['GET', 'POST'])
 def wallet():
-    user = User.query.filter_by(userId=1).first()
+    user_id = session.get('user_id')
+    if not user_id:
+       return redirect(url_for('login'))
+    
+    user = User.query.filter_by(userId=user_id).first()
     if user is not None:
         balance = user.cashBal
     else:
@@ -204,8 +227,9 @@ def wallet():
 
 @app.route("/addcash", methods=["POST"])
 def add_cash():
+    user_id = session.get('user_id')
     addamount = request.form.get("addAmount")
-    user = User.query.filter_by(userId=1).first()
+    user = User.query.filter_by(userId=user_id).first()
     if user is not None:
         user.cashBal += int(addamount)
         db.session.commit()
@@ -214,8 +238,9 @@ def add_cash():
 
 @app.route("/withdraw", methods=["POST"])
 def withdraw():
+    user_id = session.get('user_id')
     withdrawAmount = request.form.get("withdrawAmount")
-    user = User.query.filter_by(userId=1).first()
+    user = User.query.filter_by(userId=user_id).first()
     if user is not None:
         user.cashBal -= int(withdrawAmount)
         db.session.commit()
@@ -273,7 +298,7 @@ def del_Stock(stockId):
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-        db.session.add(User('Daniel', 'Polonsky', 'Abraca-Daniel','polonsky.da@live.com','SoupwithSririacha','59382'))
+        db.session.add(User('Daniel', 'Polonsky','polonsky.da@live.com','SoupwithSririacha','59382'))
         db.session.add(Stock('APPL', 56))
         db.session.add(Stock('NVDA', 200))
         db.session.add(Stock('MSFT', 2000))
