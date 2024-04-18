@@ -260,13 +260,12 @@ def portfolio():
    stockId = session.get('stockId')
    price = session.get('price')
    quantity = session.get('quantity')
-   update_stock = Portfolio(stockId, quantity, price)
+   update_stock = Portfolio(stockId, quantity)
    AmountFromSale = price * quantity
    user = User.query.filter_by(userId=user_id).first()
    if user is not None:
       user.cashBal += int(AmountFromSale)
-      portfolio.stockId -=(update_stock)
-      portfolio.quantity -=(update_stock)
+      portfolio -= (update_stock)
       db.session.commit()
       return redirect(url_for("portfolio"))
 
