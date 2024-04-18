@@ -249,9 +249,6 @@ def withdraw():
 
 @app.route("/portfolio", methods=["GET"])
 def portfolio():
-<<<<<<< Updated upstream
-   return render_template('portfolio.html')
-=======
    user_id = session.get('user_id')
    portfolio = Portfolio.query.filter_by(userId=user_id)
    return render_template('portfolio.html', user_id=user_id, portfolio=portfolio)
@@ -273,7 +270,6 @@ def portfolio():
       db.session.commit()
       return redirect(url_for("portfolio"))
 
->>>>>>> Stashed changes
 
 @app.route("/searchstock")
 def searchStock():
