@@ -111,6 +111,7 @@ tr:nth-child(even) {
       <td>{{ stock.stockId }}</td>
       <td>{{ stock.ticker }}</td>
       <td>{{ stock.price }}</td>
+      <td>{{ stock.quantity }}</td>
       <td><a href="/sellstock/{{ portfolio }}">Sell</a></td>
     </tr>
     {% endfor %}
@@ -120,62 +121,19 @@ tr:nth-child(even) {
 
 </body>
 </html>
+
 <html>
-
-
  </body>
- 
- 
  <html>
-
 </body>
 </html>
 
-</body>
-</html> 
-<button onclick="byS()">Buy a stock</button>
+<form action="/sellstock">
+  <label for="quantity">Quantity to sell:</label>
+  <input type="number" id="quantity" name="quantity" min="1">
+  <input type="submit">
+</form>
 
-<p id="Button2"></p>
-
-<script>
-function byS() {
-  var txt;
-  if (confirm("Are you sure you want to buy this stock?")) {
-    txt = "stock purchased!";
-  } else {
-    txt = "Transaction is cancelled!";
-  }
-  document.getElementById("Button2").innerHTML = txt;
-}
-</script>
-</body>
-</html>
-<button onclick="seS()">Sell a stock</button>
-
-<p id="Button1"></p>
-
-<script>
-function seS() {
-  var txt;
-  if (confirm("Are you sure you want to sell this stock?")) {
-    txt = "stock sold!";
-  } else {
-    txt = "Transcation is cancelled!";
-  }
-  document.getElementById("Button1").innerHTML = txt;
-}
-</script>
-
-<p id="button1"></p>
-<script>
-let text = "";
-
-for (let i = 0; i < 5; i++) {
-  
-}
-
-document.getElementById("button1").innerHTML = text;
-</script>
 
 </body>
 </html>

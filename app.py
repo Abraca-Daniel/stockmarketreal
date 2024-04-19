@@ -264,10 +264,13 @@ def portfolio():
    AmountFromSale = price * quantity
    user = User.query.filter_by(userId=user_id).first()
    if user is not None:
-      user.cashBal += int(AmountFromSale)
-      portfolio -= (update_stock)
-      db.session.commit()
-      return redirect(url_for("portfolio"))
+      if update_stock(quantity) <= quantity:
+        user.cashBal += int(AmountFromSale)
+        portfolio -= (update_stock)
+        db.session.commit()
+        return redirect(url_for("portfolio"))
+      else:
+        return "Insufficient quantity to sell"
 
 
 @app.route("/searchstock")
