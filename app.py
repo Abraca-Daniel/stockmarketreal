@@ -110,17 +110,16 @@ class Transactions(db.Model):
     transactId = db.Column(db.Integer, primary_key=True, index = True)
     userId = db.Column(db.Integer, ForeignKey(User.userId))
     stockId = db.Column(db.Integer, ForeignKey(Stock.stockId))
-    isWalletTransact = db.Column(db.Boolean)
-    portfolioId = db.Column(db.Integer, ForeignKey(Portfolio.portfolioid))
     cashValue = db.Column(db.Integer)
+    buyorsell = db.Column(db.Boolean)
     date = db.Column(db.DateTime, default=func.now())
+    stock = db.relationship('Stock', backref=db.backref('transactions', lazy=True))
 
-    def __init__(self, userId, stockId, walletBool, portfolioId, cashValue):
-      self.userId = userId
-      self.stockId = stockId
-      self.isWalletTransact = walletBool
-      self.portfolioId = portfolioId
-      cashValue = cashValue
+    def __init__(self, userId, stockId, cashValue, buyorsell):
+        self.userId = userId
+        self.stockId = stockId
+        self.cashValue = cashValue
+        buyorsell = buyorsell
 
     def buy_stock(self, stock, quantity):
         if stock.price * quantity > self.portfolio.view_balance():
@@ -192,7 +191,7 @@ def signupUser():
     username = request.form.get('email')
     password = request.form.get('psw')
     cashBal = request.form.get('cashBal')
-    new_user = User(fname, lname, email, password, cashBal)
+    new_user = User(fname, lname, email, password, cashBal, username)
     db.session.add(new_user)
     db.session.commit()
     return redirect(url_for('login'))
@@ -252,8 +251,6 @@ def withdraw():
 
 @app.route("/portfolio")
 def portfolio():
-   user_id = session.get('user_id')
-   portfolio = Portfolio.query.filter_by(userId=user_id)
    return render_template('portfolio.html')
 
 @app.route("/searchstock")
@@ -299,16 +296,39 @@ def del_Stock(stockId):
     db.session.commit()
     return redirect(url_for("adminPage"))
 
+@app.route("/transactions")
+def transactionPage():
+    user_id = session.get('user_id')
+    transactions = Transactions.query.filter_by(userId=user_id).all()
+    if not transactions:
+        return "No transactions for current user"
+    
+
+    return render_template("transactions.html", transactions=transactions)
+
 
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-        db.session.add(User('Daniel', 'Polonsky','polonsky.da@live.com','SoupwithSririacha','59382', 'AbracaDaniel'))
-        db.session.add(Stock('APPL', 56))
-        db.session.add(Stock('NVDA', 200))
-        db.session.add(Stock('MSFT', 2000))
-        db.session.add(Company('Apple Inc.', 'APPL', 20000))
-        db.session.add(Company('Microsoft Corporation', 'MSFT', 10000))
-        db.session.add(Company('Nvidia Corporation', 'NVDA', 100))
+        if Transactions.query.first() is None:
+            db.session.add(Transactions(1, 2, 1512, False))
+            db.session.add(Transactions(1, 1, 1386, True))
+            db.session.add(Transactions(1, 4, 1386, True))
+            db.session.add(Transactions(1, 5, 9030, False))
+        if User.query.first() is None:
+            db.session.add(User('Daniel', 'Polonsky','polonsky.da@live.com','1234','59382', 'AbracaDaniel'))
+        if Stock.query.first() is None:
+            db.session.add(Stock('APPL', 56))
+            db.session.add(Stock('NVDA', 200))
+            db.session.add(Stock('MSFT', 2000))
+            db.session.add(Stock('GOOG', 1000))
+            db.session.add(Stock('AMZN', 1500))
+        if Company.query.first() is None:
+            db.session.add(Company('Apple Inc.', 'APPL', 20000))
+            db.session.add(Company('Microsoft Corporation', 'MSFT', 10000))
+            db.session.add(Company('Nvidia Corporation', 'NVDA', 100))
+            db.session.add(Company('Google LLC', 'GOOG', 30000))
+            db.session.add(Company('Amazon.com, Inc.', 'AMZN', 40000))
+        db.session.commit()
         db.session.commit()
         app.run(debug=True)
