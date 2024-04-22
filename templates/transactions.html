@@ -13,7 +13,7 @@
   <a href="wallet">Wallet</a>
   <a href="login-signup">Log In</a>
   <a href="transactions">Transactions</a>
-   
+
    
   <input type="text" placeholder="Search for stocks..">
 </div> 
@@ -74,9 +74,7 @@ body {
     border: 1px solid #ccc;  
   }
 }
-</style>
-</head>
-<style>
+
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
@@ -93,44 +91,32 @@ tr:nth-child(even) {
   background-color: #0e6655;
 }
 </style>
+
 </head>
 <body>
-<h1>Portfolio</h1>
+<h1>Transaction History</h1>
 <h2>Stocks owned</h2>
 <!-- Pull all stocks with matching userID in portfolio-->
 <table>
   <tr>
-    <th>Stock Name</th>
-    <th>Price</th>
+    <th>Stock</th>
+    <th>Cash Value</th>
+    <th>Buy or Sell</th>
   </tr>
+  {% for transaction in transactions %}
   <tr>
-    <td>stock 1</td>
-    <td>$</td>
+    <td>{{ transaction.stock.ticker }}</td>
+    <td>${{ transaction.cashValue }}</td>
+    <td>
+      {% if transaction.buyorsell %}
+        Buy
+      {% else %}
+        Sell
+      {% endif %}
+    </td>
   </tr>
-  <tr>
-  <td>stock 2</td>
-    <td>$</td>
-  </tr>
-  <tr>
-  <td>stock 3</td>
-    <td>$</td>
-  </tr>
-  <tr>
-  <td>stock 4</td>
-    <td>$</td>
-  </tr>
-  <td>stock 5</td>
-    <td>$</td>
-  </tr>
-  <tr>
-  <tr>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-  </tr>
+  {% endfor %}
 </table>
-
 </body>
 </html>
 <html>
@@ -146,53 +132,6 @@ tr:nth-child(even) {
 
 </body>
 </html> 
-<button onclick="byS()">Buy a stock</button>
-
-<p id="Button2"></p>
-
-<script>
-function byS() {
-  var txt;
-  if (confirm("Are you sure you want to buy this stock?")) {
-    txt = "stock purchased!";
-  } else {
-    txt = "Transaction is cancelled!";
-  }
-  document.getElementById("Button2").innerHTML = txt;
-}
-</script>
-</body>
-</html>
-<button onclick="seS()">Sell a stock</button>
-
-<p id="Button1"></p>
-
-<script>
-function seS() {
-  var txt;
-  if (confirm("Are you sure you want to sell this stock?")) {
-    txt = "stock sold!";
-  } else {
-    txt = "Transcation is cancelled!";
-  }
-  document.getElementById("Button1").innerHTML = txt;
-}
-</script>
-
-<p id="button1"></p>
-<script>
-let text = "";
-
-for (let i = 0; i < 5; i++) {
-  
-}
-
-document.getElementById("button1").innerHTML = text;
-</script>
-
-</body>
-</html>
-
 
 
 <html> 
