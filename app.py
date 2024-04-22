@@ -275,7 +275,15 @@ def portfolio():
 
 @app.route("/searchstock")
 def searchStock():
-    return render_template('searchstock.html')
+    stock_list = Stock.query.all()
+    return render_template('searchstock.html', stock_list=stock_list)
+
+@app.route("/searchresult", methods=["POST"])
+def searching():
+    search_query = request.form.get("stockName")
+    stock_list = Stock.query.filter(Stock.ticker.ilike(f'%{search_query}%')).all()
+    return redirect(url_for("searchstock", stock_list=stock_list))
+
 
 @app.route("/adminpage")
 def adminPage():
