@@ -18,11 +18,55 @@
     <a href="transactions">Transactions</a>
      
    
-  <input type="text" placeholder="Search for stocks..">
+
+  <form action="/searchresult" method="POST">
+    <label for="stockName">Search for Stock:</label>
+    <input type="text" id="stockName" placeholder="Stock Ticker" name="stockName">
+    <input type="submit">
+  </form>
 </div> 
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<h2>All listed Stocks</h2>
+<div id="stocks">
+  <table style="width:100%; background-color:black; font-size:1.5em;">
+    <tr style="background-color: #0e6655;;">
+      <th>Stock ID</th>
+      <th>Ticker</th>
+      <th>Price</th>
+    </tr>
+    {% for stock in stock_list %}
+    <tr style="border:2px solid white;">
+      <td>{{ stock.stockId }}</td>
+      <td>{{ stock.ticker }}</td>
+      <td>{{ stock.price }}</td>
+      <td><a href="/buyastock/{{ stock.stockId }}">Buy</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+
+
 <style>
 * {box-sizing: border-box;}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #0e6655;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #0e6655;
+}
+
 
 body {
   margin: 0;

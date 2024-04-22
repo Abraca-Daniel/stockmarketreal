@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from sqlalchemy import ForeignKey
+import os
 
 app = Flask(__name__)
 app.app_context()
@@ -11,6 +12,7 @@ app.secret_key = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+file_path=".\instance\db.sqlite"
 
 class User(db.Model):
    __tablename__ = 'User'
@@ -65,7 +67,7 @@ class Portfolio(db.Model):
     purchasePrice = db.Column(db.Integer) 
 
     def __init__(self, userID, Stock, quantity, purchasePrice):
-        self.userID = userID
+        self.userid = userID
         self.stockID = Stock
         self.quantity = quantity
         self.purchasePrice = purchasePrice
@@ -249,13 +251,100 @@ def withdraw():
     return redirect(url_for("wallet"))
 
 
-@app.route("/portfolio")
+@app.route("/portfolio", methods=["GET"])
 def portfolio():
-   return render_template('portfolio.html')
+   user_id = session.get('user_id')
+   if user_id is None:
+       return redirect(url_for('login'))
+   portfolio = Portfolio.query.filter_by(userid=user_id)
+   stockList = Stock.query.all()
+   return render_template('portfolio.html', user_id=user_id, stockList = stockList, portfolio=portfolio)
+
+@app.route("/sellastock/<int:stockID>/", methods=["GET"])
+def sellaStock(stockID):
+   user_id = session.get('user_id')
+   portfolio_entry = Portfolio.query.filter_by(userid=user_id, stockID=stockID).first()
+   stockName = Stock.query.filter_by(stockId=stockID).first()
+   stockName = stockName.ticker
+   availQuantity = portfolio_entry.quantity
+   return render_template('sellastock.html', availQuantity=availQuantity, stockName=stockName)
+
+@app.route("/sellthestock", methods=["POST"])
+def sellthestock():
+   user_id = session.get('user_id')
+   quantity = request.form.get('sellQuantity')
+   if user_id is None:
+       return redirect(url_for('login'))
+   user = User.query.filter_by(userId=user_id).first()
+   ticker = request.form.get('stockTicker')
+   stock = Stock.query.filter_by(ticker=ticker).first()
+   company = Company.query.filter_by(ticker=ticker).first()
+   stockID = stock.stockId
+   portfolio_entry = Portfolio.query.filter_by(userid=user_id, stockID=stockID).first()
+   user.cashBal += (int(quantity) * portfolio_entry.purchasePrice)
+   portfolio_entry.quantity -= int(quantity)
+   company.total_shares += int(quantity)
+   test = portfolio_entry.quantity
+   if test == 0:
+       db.session.delete(portfolio_entry)
+       db.session.commit()
+       return redirect(url_for('portfolio'))
+   else:
+       db.session.commit()
+       return redirect(url_for('portfolio'))
 
 @app.route("/searchstock")
 def searchStock():
-    return render_template('searchstock.html')
+    stock_list = Stock.query.all()
+    return render_template('searchstock.html', stock_list=stock_list)
+
+@app.route("/buyastock/<int:stockID>", methods=["GET"])
+def buyaStock(stockID):
+   user_id = session.get('user_id')
+   portfolio_entry = Portfolio.query.filter_by(userid=user_id, stockID=stockID).first()
+   stockName = Stock.query.filter_by(stockId=stockID).first()
+   stockName = stockName.ticker
+   company = Company.query.filter_by(ticker=stockName).first()
+   availShares = company.total_shares
+   return render_template('buyastock.html', availShares=availShares, stockName=stockName)    
+
+@app.route("/buythestock", methods = ["POST"])
+def buythestock():
+    user_id = session.get('user_id')
+    quantity = request.form.get('buyQuantity')
+    if user_id is None:
+        return redirect(url_for('login'))
+    user = User.query.filter_by(userId=user_id).first()
+    ticker = request.form.get('stockTicker')
+    stock = Stock.query.filter_by(ticker=ticker).first()
+    company = Company.query.filter_by(ticker=ticker).first()
+    stockID = stock.stockId
+    company.total_shares -= int(quantity)
+    cost = (int(quantity)*stock.price)
+    test = user.cashBal - cost
+    if test == 0:
+        return redirect(url_for('wallet'))
+    else:
+       user.cashBal -= cost
+    portfolio_entry = Portfolio.query.filter_by(userid=user_id, stockID=stockID).first()
+    if portfolio_entry is None:
+        portfolio_entry=Portfolio(user_id, stockID, quantity, stock.price)
+    else:
+        portfolio_entry.quantity += int(quantity)
+    db.session.add(portfolio_entry)
+    db.session.commit()
+    return redirect(url_for('portfolio'))
+
+
+
+
+
+@app.route("/searchresult", methods=["POST"])
+def searching():
+    search_query = request.form.get("stockName")
+    stock_list = Stock.query.filter(Stock.ticker.ilike(f'%{search_query}%')).all()
+    return render_template('searchstock.html', stock_list=stock_list)
+
 
 @app.route("/adminpage")
 def adminPage():
@@ -311,26 +400,18 @@ def transactionPage():
 
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()
-        if Transactions.query.first() is None:
-            db.session.add(Transactions(1, 2, 1512, False))
-            db.session.add(Transactions(1, 1, 1386, True))
-            db.session.add(Transactions(1, 4, 1386, True))
-            db.session.add(Transactions(1, 5, 9030, False))
-        if User.query.first() is None:
-            db.session.add(User('Daniel', 'Polonsky','polonsky.da@live.com','1234','59382', 'AbracaDaniel'))
-        if Stock.query.first() is None:
+        if os.path.isfile(file_path):
+            app.run(debug=True)
+        else:
+            db.create_all()
+            db.session.add(User('Daniel', 'Polonsky','polonsky.da@live.com','SoupwithSririacha','59382'))
             db.session.add(Stock('APPL', 56))
             db.session.add(Stock('NVDA', 200))
             db.session.add(Stock('MSFT', 2000))
-            db.session.add(Stock('GOOG', 1000))
-            db.session.add(Stock('AMZN', 1500))
-        if Company.query.first() is None:
             db.session.add(Company('Apple Inc.', 'APPL', 20000))
             db.session.add(Company('Microsoft Corporation', 'MSFT', 10000))
             db.session.add(Company('Nvidia Corporation', 'NVDA', 100))
-            db.session.add(Company('Google LLC', 'GOOG', 30000))
-            db.session.add(Company('Amazon.com, Inc.', 'AMZN', 40000))
-        db.session.commit()
-        db.session.commit()
-        app.run(debug=True)
+            db.session.add(Portfolio(1, 1, 200, 40))
+            db.session.add(Portfolio(1, 2, 100, 300))
+            db.session.commit()
+            app.run(debug=True)

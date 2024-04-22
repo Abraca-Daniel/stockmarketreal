@@ -15,7 +15,6 @@
   <a href="transactions">Transactions</a>
    
    
-  <input type="text" placeholder="Search for stocks..">
 </div> 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
@@ -96,104 +95,42 @@ tr:nth-child(even) {
 </head>
 <body>
 <h1>Portfolio</h1>
-<h2>Stocks owned</h2>
+<h2>Stocks Owned</h2>
+
 <!-- Pull all stocks with matching userID in portfolio-->
-<table>
-  <tr>
-    <th>Stock Name</th>
-    <th>Price</th>
-  </tr>
-  <tr>
-    <td>stock 1</td>
-    <td>$</td>
-  </tr>
-  <tr>
-  <td>stock 2</td>
-    <td>$</td>
-  </tr>
-  <tr>
-  <td>stock 3</td>
-    <td>$</td>
-  </tr>
-  <tr>
-  <td>stock 4</td>
-    <td>$</td>
-  </tr>
-  <td>stock 5</td>
-    <td>$</td>
-  </tr>
-  <tr>
-  <tr>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-  </tr>
-</table>
+
+<div id="portfolio">
+  <table style="width:100%; background-color:black; font-size:1.5em;">
+    <tr style="background-color: #0e6655;;">
+      <th>Stock ID</th>
+      <th>Ticker</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      </tr>
+    {% for stock in portfolio %}
+    <tr style="border:2px solid white;">
+      <td>{{ stock.stockID }}</td>
+      <td>{{ stock.ticker }}</td>
+      <td>{{ stock.purchasePrice }}</td>
+      <td>{{ stock.quantity }}</td>
+      <td><a href="/sellastock/{{ stock.stockID }}">Sell</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
 
 </body>
 </html>
+
 <html>
-
-
  </body>
- 
- 
  <html>
-
 </body>
 </html>
 
 </body>
-</html> 
-<button onclick="byS()">Buy a stock</button>
-
-<p id="Button2"></p>
-
-<script>
-function byS() {
-  var txt;
-  if (confirm("Are you sure you want to buy this stock?")) {
-    txt = "stock purchased!";
-  } else {
-    txt = "Transaction is cancelled!";
-  }
-  document.getElementById("Button2").innerHTML = txt;
-}
-</script>
-</body>
 </html>
-<button onclick="seS()">Sell a stock</button>
-
-<p id="Button1"></p>
-
-<script>
-function seS() {
-  var txt;
-  if (confirm("Are you sure you want to sell this stock?")) {
-    txt = "stock sold!";
-  } else {
-    txt = "Transcation is cancelled!";
-  }
-  document.getElementById("Button1").innerHTML = txt;
-}
-</script>
-
-<p id="button1"></p>
-<script>
-let text = "";
-
-for (let i = 0; i < 5; i++) {
-  
-}
-
-document.getElementById("button1").innerHTML = text;
-</script>
-
-</body>
-</html>
-
-
 
 <html> 
 <head> 
