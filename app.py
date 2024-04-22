@@ -63,7 +63,7 @@ class Portfolio(db.Model):
     purchasePrice = db.Column(db.Integer) 
 
     def __init__(self, userID, Stock, quantity, purchasePrice):
-        self.userID = userID
+        self.userid = userID
         self.stockID = Stock
         self.quantity = quantity
         self.purchasePrice = purchasePrice
@@ -250,27 +250,23 @@ def withdraw():
 @app.route("/portfolio", methods=["GET"])
 def portfolio():
    user_id = session.get('user_id')
-   portfolio = Portfolio.query.filter_by(userId=user_id)
-   return render_template('portfolio.html', user_id=user_id, portfolio=portfolio)
+   if user_id is None:
+       return redirect(url_for('login'))
+   portfolio = Portfolio.query.filter_by(userid=user_id)
+   stockList = Stock.query.all()
+   return render_template('portfolio.html', user_id=user_id, stockList = stockList, portfolio=portfolio)
 
-@app.route("/sellstock", methods=["POST"])
-def portfolio():
+@app.route("/sellastock/<int:stockID>/", methods=["GET"])
+def sellaStock(stockID):
    user_id = session.get('user_id')
-   portfolio = Portfolio.query.filter_by(userId=user_id)
-   stockId = session.get('stockId')
-   price = session.get('price')
-   quantity = session.get('quantity')
-   update_stock = Portfolio(stockId, quantity)
-   AmountFromSale = price * quantity
-   user = User.query.filter_by(userId=user_id).first()
-   if user is not None:
-      if update_stock(quantity) <= quantity:
-        user.cashBal += int(AmountFromSale)
-        portfolio -= (update_stock)
-        db.session.commit()
-        return redirect(url_for("portfolio"))
-      else:
-        return "Insufficient quantity to sell"
+   portfolio_entry = Portfolio.query.filter_by(userid=user_id, stockID=stockID).first()
+   stockName = Stock.query.filter_by(stockId=stockID).first()
+   stockName = stockName.ticker
+   availQuantity = portfolio_entry.quantity
+   return render_template('sellastock.html', availQuantity=availQuantity, stockName=stockName)
+
+@app.route("/sellthestock", methods=["POST"])
+
 
 
 @app.route("/searchstock")
@@ -327,5 +323,7 @@ if __name__ == "__main__":
         db.session.add(Company('Apple Inc.', 'APPL', 20000))
         db.session.add(Company('Microsoft Corporation', 'MSFT', 10000))
         db.session.add(Company('Nvidia Corporation', 'NVDA', 100))
+        db.session.add(Portfolio(1, 1, 200, 40))
+        db.session.add(Portfolio(1, 2, 100, 300))
         db.session.commit()
         app.run(debug=True)

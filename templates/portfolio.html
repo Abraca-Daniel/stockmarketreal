@@ -105,14 +105,14 @@ tr:nth-child(even) {
       <th>Ticker</th>
       <th>Price</th>
       <th>Quantity</th>
-    </tr>
+      </tr>
     {% for stock in portfolio %}
     <tr style="border:2px solid white;">
-      <td>{{ stock.stockId }}</td>
+      <td>{{ stock.stockID }}</td>
       <td>{{ stock.ticker }}</td>
-      <td>{{ stock.price }}</td>
+      <td>{{ stock.purchasePrice }}</td>
       <td>{{ stock.quantity }}</td>
-      <td><a href="/sellstock/{{ portfolio }}">Sell</a></td>
+      <td><a href="/sellastock/{{ stock.stockID }}">Sell</a></td>
     </tr>
     {% endfor %}
   </table>
@@ -127,12 +127,6 @@ tr:nth-child(even) {
  <html>
 </body>
 </html>
-
-<form action="/sellstock">
-  <label for="quantity">Quantity to sell:</label>
-  <input type="number" id="quantity" name="quantity" min="1">
-  <input type="submit">
-</form>
 
 </body>
 </html>
