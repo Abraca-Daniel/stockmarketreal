@@ -22,16 +22,14 @@ class User(db.Model):
    email = db.Column(db.String(100))
    password = db.Column(db.String(100))
    cashBal = db.Column(db.Integer)
-   username = db.Column(db.String(100))
    
 
-   def __init__(self, fName, lName, email, password, cash_amount, username):
+   def __init__(self, fName, lName, email, password, cash_amount):
        self.first_name = fName
        self.last_name = lName
        self.email = email
        self.password = password
        self.cashBal = cash_amount
-       self.username = username
 
 class Stock(db.Model):
    __tablename__ = 'Stock'
@@ -112,16 +110,17 @@ class Transactions(db.Model):
     transactId = db.Column(db.Integer, primary_key=True, index = True)
     userId = db.Column(db.Integer, ForeignKey(User.userId))
     stockId = db.Column(db.Integer, ForeignKey(Stock.stockId))
+    isWalletTransact = db.Column(db.Boolean)
+    portfolioId = db.Column(db.Integer, ForeignKey(Portfolio.portfolioid))
     cashValue = db.Column(db.Integer)
-    buyorsell = db.Column(db.Boolean)
     date = db.Column(db.DateTime, default=func.now())
-    stock = db.relationship('Stock', backref=db.backref('transactions', lazy=True))
 
-    def __init__(self, userId, stockId, cashValue, buyorsell):
-        self.userId = userId
-        self.stockId = stockId
-        self.cashValue = cashValue
-        buyorsell = buyorsell
+    def __init__(self, userId, stockId, walletBool, portfolioId, cashValue):
+      self.userId = userId
+      self.stockId = stockId
+      self.isWalletTransact = walletBool
+      self.portfolioId = portfolioId
+      self.cashValue = cashValue
 
     def buy_stock(self, stock, quantity):
         if stock.price * quantity > self.portfolio.view_balance():
@@ -187,13 +186,13 @@ def signup():
 
 @app.route("/signupUser", methods=['POST'])
 def signupUser():
+    session['user_id'] = None
     name = request.form.get('name')
     fname, lname = name.split(' ', 1)
     email = request.form.get('email')
-    username = request.form.get('email')
     password = request.form.get('psw')
     cashBal = request.form.get('cashBal')
-    new_user = User(fname, lname, email, password, cashBal, username)
+    new_user = User(fname, lname, email, password, cashBal)
     db.session.add(new_user)
     db.session.commit()
     return redirect(url_for('login'))
@@ -256,9 +255,8 @@ def portfolio():
    user_id = session.get('user_id')
    if user_id is None:
        return redirect(url_for('login'))
-   portfolio = Portfolio.query.filter_by(userid=user_id)
-   stockList = Stock.query.all()
-   return render_template('portfolio.html', user_id=user_id, stockList = stockList, portfolio=portfolio)
+   portfolio = db.session.query(Portfolio, Stock).join(Stock, Portfolio.stockID == Stock.stockId).filter(Portfolio.userid == user_id).all()   
+   return render_template('portfolio.html', portfolio=portfolio)
 
 @app.route("/sellastock/<int:stockID>/", methods=["GET"])
 def sellaStock(stockID):
@@ -390,11 +388,9 @@ def transactionPage():
     user_id = session.get('user_id')
     if user_id is None:
         return redirect(url_for('login'))
-    transactions = Transactions.query.filter_by(userId=user_id).all()
+    transactions = db.session.query(Transactions, Stock).join(Stock, Transactions.stockId == Stock.stockId).filter(Transactions.userId == user_id).all()   
     if not transactions:
         return "No transactions for current user"
-    
-
     return render_template("transactions.html", transactions=transactions)
 
 
@@ -404,6 +400,7 @@ if __name__ == "__main__":
             app.run(debug=True)
         else:
             db.create_all()
+            db.session.add(Transactions(1, 1, False, 1, 2000))
             db.session.add(User('Daniel', 'Polonsky','polonsky.da@live.com','SoupwithSririacha','59382'))
             db.session.add(Stock('APPL', 56))
             db.session.add(Stock('NVDA', 200))

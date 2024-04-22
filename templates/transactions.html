@@ -15,7 +15,6 @@
   <a href="transactions">Transactions</a>
 
    
-  <input type="text" placeholder="Search for stocks..">
 </div> 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
@@ -103,9 +102,9 @@ tr:nth-child(even) {
     <th>Cash Value</th>
     <th>Buy or Sell</th>
   </tr>
-  {% for transaction in transactions %}
+  {% for transaction, stock in transactions %}
   <tr>
-    <td>{{ transaction.stock.ticker }}</td>
+    <td>{{ stock.ticker }}</td>
     <td>${{ transaction.cashValue }}</td>
     <td>
       {% if transaction.buyorsell %}

@@ -14,7 +14,6 @@
   <a href="login-signup">Log In</a>
   <a href="transactions">Transactions</a>
    
-   
 </div> 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
@@ -106,14 +105,15 @@ tr:nth-child(even) {
       <th>Ticker</th>
       <th>Price</th>
       <th>Quantity</th>
+      <th>Sell</th>
       </tr>
-    {% for stock in portfolio %}
+    {% for portfolio, stock in portfolio %}
     <tr style="border:2px solid white;">
-      <td>{{ stock.stockID }}</td>
+      <td>{{ portfolio.stockID }}</td>
       <td>{{ stock.ticker }}</td>
-      <td>{{ stock.purchasePrice }}</td>
-      <td>{{ stock.quantity }}</td>
-      <td><a href="/sellastock/{{ stock.stockID }}">Sell</a></td>
+      <td>{{ portfolio.purchasePrice }}</td>
+      <td>{{ portfolio.quantity }}</td>
+      <td><a href="/sellastock/{{ portfolio.stockID }}">Sell</a></td>
     </tr>
     {% endfor %}
   </table>

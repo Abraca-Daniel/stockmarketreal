@@ -16,17 +16,21 @@
     <a href="wallet">Wallet</a>
     <a href="login-signup">Log In</a>
     <a href="transactions">Transactions</a>
-     
+       
    
 
-  <form action="/searchresult" method="POST">
-    <label for="stockName">Search for Stock:</label>
-    <input type="text" id="stockName" placeholder="Stock Ticker" name="stockName">
-    <input type="submit">
-  </form>
 </div> 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+</div>
+</body>
+<div style="height: 50px;"></div>
+<div class="searchbox" style="padding-top: 20px">
+  <form action="/searchresult" method="POST">
+      <label for="stockName">Search for Stock:</label>
+      <input type="text" id="stockName" placeholder="Stock Ticker" name="stockName">
+      <input type="submit">
+  </form>
+</div>
 <h2>All listed Stocks</h2>
 <div id="stocks">
   <table style="width:100%; background-color:black; font-size:1.5em;">
@@ -34,6 +38,7 @@
       <th>Stock ID</th>
       <th>Ticker</th>
       <th>Price</th>
+      <th>Sell</th>
     </tr>
     {% for stock in stock_list %}
     <tr style="border:2px solid white;">
@@ -56,11 +61,20 @@ table {
   border-collapse: collapse;
   width: 100%;
 }
-
+.searchbox {
+  background-color: #0e6655;
+        padding: 20px;
+        margin-bottom: 20px;
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 25px;
+}
 td, th {
   border: 1px solid #0e6655;
   text-align: left;
   padding: 8px;
+  border-radius: 5ox
 }
 
 tr:nth-child(even) {
