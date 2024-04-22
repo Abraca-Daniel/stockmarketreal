@@ -80,11 +80,11 @@ body {
     <h1>Sell a Stock</h1>
     <p>Please Select your Stock and Quantity and select Confirm</p>
     <hr>
-    <h2><input type="text" id="stockTicker" value="{{ stockName }}" readonly></h2>
+    <h2><input type="text" name="stockTicker" value="{{ stockName }}" readonly></h2>
     <h2>Available Quantity: {{ availQuantity }}</h2>  
     <div style="display: flex; justify-content: space-between;">
       <input type="number" id="sellQuantity" name="sellQuantity" style="flex: 1; margin-right: 10px;">
-      <button type="button" id="confirm" class="cancelbtn" style="flex: 1; margin-left: 10px;">Confirm</button>
+      <button type="submit" id="confirm" class="cancelbtn" style="flex: 1; margin-left: 10px;">Confirm</button>
     </div>
 </form> 
 </html>

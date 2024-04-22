@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from sqlalchemy import ForeignKey
+import os
 
 app = Flask(__name__)
 app.app_context()
@@ -11,6 +12,7 @@ app.secret_key = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+file_path=".\instance\db.sqlite"
 
 class User(db.Model):
    __tablename__ = 'User'
@@ -266,8 +268,26 @@ def sellaStock(stockID):
    return render_template('sellastock.html', availQuantity=availQuantity, stockName=stockName)
 
 @app.route("/sellthestock", methods=["POST"])
-
-
+def sellthestock():
+   user_id = session.get('user_id')
+   quantity = request.form.get('sellQuantity')
+   if user_id is None:
+       return redirect(url_for('login'))
+   user = User.query.filter_by(userId=user_id).first()
+   ticker = request.form.get('stockTicker')
+   stock = Stock.query.filter_by(ticker=ticker).first()
+   stockID = stock.stockId
+   portfolio_entry = Portfolio.query.filter_by(userid=user_id, stockID=stockID).first()
+   user.cashBal += (int(quantity) * portfolio_entry.purchasePrice)
+   portfolio_entry.quantity -= int(quantity)
+   test = portfolio_entry.quantity
+   if test == 0:
+       db.session.delete(portfolio_entry)
+       db.session.commit()
+       return redirect(url_for('portfolio'))
+   else:
+       db.session.commit()
+       return redirect(url_for('portfolio'))
 
 @app.route("/searchstock")
 def searchStock():
@@ -315,15 +335,18 @@ def del_Stock(stockId):
 
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()
-        db.session.add(User('Daniel', 'Polonsky','polonsky.da@live.com','SoupwithSririacha','59382'))
-        db.session.add(Stock('APPL', 56))
-        db.session.add(Stock('NVDA', 200))
-        db.session.add(Stock('MSFT', 2000))
-        db.session.add(Company('Apple Inc.', 'APPL', 20000))
-        db.session.add(Company('Microsoft Corporation', 'MSFT', 10000))
-        db.session.add(Company('Nvidia Corporation', 'NVDA', 100))
-        db.session.add(Portfolio(1, 1, 200, 40))
-        db.session.add(Portfolio(1, 2, 100, 300))
-        db.session.commit()
-        app.run(debug=True)
+        if os.path.isfile(file_path):
+            app.run(debug=True)
+        else:
+            db.create_all()
+            db.session.add(User('Daniel', 'Polonsky','polonsky.da@live.com','SoupwithSririacha','59382'))
+            db.session.add(Stock('APPL', 56))
+            db.session.add(Stock('NVDA', 200))
+            db.session.add(Stock('MSFT', 2000))
+            db.session.add(Company('Apple Inc.', 'APPL', 20000))
+            db.session.add(Company('Microsoft Corporation', 'MSFT', 10000))
+            db.session.add(Company('Nvidia Corporation', 'NVDA', 100))
+            db.session.add(Portfolio(1, 1, 200, 40))
+            db.session.add(Portfolio(1, 2, 100, 300))
+            db.session.commit()
+            app.run(debug=True)
