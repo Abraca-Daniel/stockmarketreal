@@ -276,10 +276,12 @@ def sellthestock():
    user = User.query.filter_by(userId=user_id).first()
    ticker = request.form.get('stockTicker')
    stock = Stock.query.filter_by(ticker=ticker).first()
+   company = Company.query.filter_by(ticker=ticker).first()
    stockID = stock.stockId
    portfolio_entry = Portfolio.query.filter_by(userid=user_id, stockID=stockID).first()
    user.cashBal += (int(quantity) * portfolio_entry.purchasePrice)
    portfolio_entry.quantity -= int(quantity)
+   company.total_shares += int(quantity)
    test = portfolio_entry.quantity
    if test == 0:
        db.session.delete(portfolio_entry)
@@ -294,11 +296,52 @@ def searchStock():
     stock_list = Stock.query.all()
     return render_template('searchstock.html', stock_list=stock_list)
 
+@app.route("/buyastock/<int:stockID>", methods=["GET"])
+def buyaStock(stockID):
+   user_id = session.get('user_id')
+   portfolio_entry = Portfolio.query.filter_by(userid=user_id, stockID=stockID).first()
+   stockName = Stock.query.filter_by(stockId=stockID).first()
+   stockName = stockName.ticker
+   company = Company.query.filter_by(ticker=stockName).first()
+   availShares = company.total_shares
+   return render_template('buyastock.html', availShares=availShares, stockName=stockName)    
+
+@app.route("/buythestock", methods = ["POST"])
+def buythestock():
+    user_id = session.get('user_id')
+    quantity = request.form.get('buyQuantity')
+    if user_id is None:
+        return redirect(url_for('login'))
+    user = User.query.filter_by(userId=user_id).first()
+    ticker = request.form.get('stockTicker')
+    stock = Stock.query.filter_by(ticker=ticker).first()
+    company = Company.query.filter_by(ticker=ticker).first()
+    stockID = stock.stockId
+    company.total_shares -= int(quantity)
+    cost = (int(quantity)*stock.price)
+    test = user.cashBal - cost
+    if test == 0:
+        return redirect(url_for('wallet'))
+    else:
+       user.cashBal -= cost
+    portfolio_entry = Portfolio.query.filter_by(userid=user_id, stockID=stockID).first()
+    if portfolio_entry is None:
+        portfolio_entry=Portfolio(user_id, stockID, quantity, stock.price)
+    else:
+        portfolio_entry.quantity += int(quantity)
+    db.session.add(portfolio_entry)
+    db.session.commit()
+    return redirect(url_for('portfolio'))
+
+
+
+
+
 @app.route("/searchresult", methods=["POST"])
 def searching():
     search_query = request.form.get("stockName")
     stock_list = Stock.query.filter(Stock.ticker.ilike(f'%{search_query}%')).all()
-    return redirect(url_for("searchStock", stock_list=stock_list))
+    return render_template('searchstock.html', stock_list=stock_list)
 
 
 @app.route("/adminpage")

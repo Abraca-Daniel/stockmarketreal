@@ -75,15 +75,15 @@ body {
     <title>LOG IN - STOCKSITE</title>
 </head>
 </div> 
- <form action="/sellthestock" method="POST" style="border:1px solid #ccc">
+ <form action="/buythestock" method="POST" style="border:1px solid #ccc">
   <div class="container">
-    <h1>Sell a Stock</h1>
-    <p>Please Select your Quantity and Confirm</p>
+    <h1>Buy a Stock</h1>
+    <p>Please Select the Quantity and Confirm</p>
     <hr>
     <h2><input type="text" name="stockTicker" value="{{ stockName }}" readonly></h2>
-    <h2>Available Quantity: {{ availQuantity }}</h2>  
+    <h2>Available Quantity: {{ availShares }}</h2>  
     <div style="display: flex; justify-content: space-between;">
-      <input type="number" id="sellQuantity" name="sellQuantity" style="flex: 1; margin-right: 10px;">
+      <input type="number" id="buyQuantity" name="buyQuantity" style="flex: 1; margin-right: 10px;">
       <button type="submit" id="confirm" class="cancelbtn" style="flex: 1; margin-left: 10px;">Confirm</button>
     </div>
 </form> 

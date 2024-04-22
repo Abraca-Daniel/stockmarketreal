@@ -19,7 +19,7 @@
 
   <form action="/searchresult" method="POST">
     <label for="stockName">Search for Stock:</label>
-    <input type="text" id="stockName" name="stockName">
+    <input type="text" id="stockName" placeholder="Stock Ticker" name="stockName">
     <input type="submit">
   </form>
 </div> 
@@ -38,7 +38,7 @@
       <td>{{ stock.stockId }}</td>
       <td>{{ stock.ticker }}</td>
       <td>{{ stock.price }}</td>
-      <td><a href="/buystock/{{ portfolio }}">Buy</a></td>
+      <td><a href="/buyastock/{{ stock.stockId }}">Buy</a></td>
     </tr>
     {% endfor %}
   </table>
@@ -48,6 +48,23 @@
 
 <style>
 * {box-sizing: border-box;}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #0e6655;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #0e6655;
+}
+
 
 body {
   margin: 0;
