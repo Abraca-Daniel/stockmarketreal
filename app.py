@@ -299,6 +299,8 @@ def del_Stock(stockId):
 @app.route("/transactions")
 def transactionPage():
     user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login'))
     transactions = Transactions.query.filter_by(userId=user_id).all()
     if not transactions:
         return "No transactions for current user"
