@@ -25,6 +25,7 @@
 </div> 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<h2>All listed Stocks</h2>
 <div id="stocks">
   <table style="width:100%; background-color:black; font-size:1.5em;">
     <tr style="background-color: #0e6655;;">
@@ -37,6 +38,7 @@
       <td>{{ stock.stockId }}</td>
       <td>{{ stock.ticker }}</td>
       <td>{{ stock.price }}</td>
+      <td><a href="/buystock/{{ portfolio }}">Buy</a></td>
     </tr>
     {% endfor %}
   </table>

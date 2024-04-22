@@ -254,7 +254,7 @@ def portfolio():
    return render_template('portfolio.html', user_id=user_id, portfolio=portfolio)
 
 @app.route("/sellstock", methods=["POST"])
-def portfolio():
+def sellstock():
    user_id = session.get('user_id')
    portfolio = Portfolio.query.filter_by(userId=user_id)
    stockId = session.get('stockId')
@@ -282,7 +282,7 @@ def searchStock():
 def searching():
     search_query = request.form.get("stockName")
     stock_list = Stock.query.filter(Stock.ticker.ilike(f'%{search_query}%')).all()
-    return redirect(url_for("searchstock", stock_list=stock_list))
+    return redirect(url_for("searchStock", stock_list=stock_list))
 
 
 @app.route("/adminpage")
