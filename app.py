@@ -279,15 +279,18 @@ def sellthestock():
    company = Company.query.filter_by(ticker=ticker).first()
    stockID = stock.stockId
    portfolio_entry = Portfolio.query.filter_by(userid=user_id, stockID=stockID).first()
-   user.cashBal += (int(quantity) * portfolio_entry.purchasePrice)
+   gains = int(quantity) * portfolio_entry.purchasePrice
+   user.cashBal += gains
    portfolio_entry.quantity -= int(quantity)
    company.total_shares += int(quantity)
    test = portfolio_entry.quantity
    if test == 0:
        db.session.delete(portfolio_entry)
+       db.session.add(Transactions(user_id, stockID, False, portfolio_entry.portfolioid, gains))
        db.session.commit()
        return redirect(url_for('portfolio'))
    else:
+       db.session.add(Transactions(user_id, stockID, False, portfolio_entry.portfolioid, gains))
        db.session.commit()
        return redirect(url_for('portfolio'))
 
@@ -330,6 +333,7 @@ def buythestock():
     else:
         portfolio_entry.quantity += int(quantity)
     db.session.add(portfolio_entry)
+    db.session.add(Transactions(user_id, stockID, True, portfolio_entry.portfolioid, cost))
     db.session.commit()
     return redirect(url_for('portfolio'))
 
@@ -401,7 +405,7 @@ if __name__ == "__main__":
         else:
             db.create_all()
             db.session.add(Transactions(1, 1, False, 1, 2000))
-            db.session.add(User('Daniel', 'Polonsky','polonsky.da@live.com','SoupwithSririacha','59382'))
+            db.session.add(User('Daniel', 'Polonsky','polonsky.da@live.com','1234','59382'))
             db.session.add(Stock('APPL', 56))
             db.session.add(Stock('NVDA', 200))
             db.session.add(Stock('MSFT', 2000))

@@ -107,7 +107,7 @@ tr:nth-child(even) {
     <td>{{ stock.ticker }}</td>
     <td>${{ transaction.cashValue }}</td>
     <td>
-      {% if transaction.buyorsell %}
+      {% if transaction.isWalletTransact %}
         Buy
       {% else %}
         Sell
