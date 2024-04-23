@@ -98,7 +98,7 @@ body {
     </form>
   
     <!-- Form to create a Company -->
-    
+
     <form action="/addcompany" method="post" style="width: 45%;">
       <div>
         <h3>Create/Delete a Company</h3>
@@ -113,6 +113,37 @@ body {
       </div>
     </form>
      </div>
+
+     <form action="/changemarkethours" method="post" style="width: 45%;">
+      <div>
+        <h3>Change Stock Market Hours</h3>
+        <label for="startTime">Market Opens:</label><br>
+        <input type="time" id="startTime" name="startTime" value="06:30"><br>
+        <label for="endTime">Market Closes:</label><br>
+        <input type="time" id="endTime" name="endTime" value="13:30"><br><br>
+        <input type="submit" value="Submit" onclick="alert('Stock market hours changed')">
+      </div>
+    </form>
+    <form action="/selectdays" method="post" style="width: 45%;">
+      <div>
+        <h3>Select Open Market Days</h3>
+        <input type="checkbox" id="monday" name="monday" checked>
+        <label for="monday">Monday</label><br>
+        <input type="checkbox" id="tuesday" name="tuesday" checked>
+        <label for="tuesday">Tuesday</label><br>
+        <input type="checkbox" id="wednesday" name="wednesday" checked>
+        <label for="wednesday">Wednesday</label><br>
+        <input type="checkbox" id="thursday" name="thursday" checked>
+        <label for="thursday">Thursday</label><br>
+        <input type="checkbox" id="friday" name="friday"checked>
+        <label for="friday">Friday</label><br>
+        <input type="checkbox" id="saturday" name="saturday" >
+        <label for="saturday">Saturday</label><br>
+        <input type="checkbox" id="sunday" name="sunday" >
+        <label for="sunday">Sunday</label><br>
+        <input type="submit" value="Submit">
+      </div>
+    </form>
 <h2>All listed Stocks</h2>
 
 <div id="stocks">
@@ -163,7 +194,7 @@ body {
 
 <html>
 <style>
-input[type=text], select {
+input[type=text], input[type=time], input[type=checkbox] select {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;

@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from sqlalchemy import ForeignKey
 import os
+import random
 
 app = Flask(__name__)
 app.app_context()
@@ -13,6 +14,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 file_path=".\instance\db.sqlite"
+
+
 
 class User(db.Model):
    __tablename__ = 'User'
@@ -297,7 +300,10 @@ def sellthestock():
 @app.route("/searchstock")
 def searchStock():
     stock_list = Stock.query.all()
+    for stock in stock_list:
+        stock.price += random.choice([-5, 5])
     return render_template('searchstock.html', stock_list=stock_list)
+    
 
 @app.route("/buyastock/<int:stockID>", methods=["GET"])
 def buyaStock(stockID):
